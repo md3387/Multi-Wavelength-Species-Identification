@@ -245,17 +245,23 @@ The Python script `HAPI_Processor.py` is responsible for interacting with the HI
     Ensure that the input parameters for data retrieval and processing are correctly specified in the MATLAB scripts. For example:
 
     molecule_ids = [1, 2];
+   
     isotopologue_ids = [1, 2];
+   
     wavelengths = [2.5, 3.0, 3.5];
+   
     temperature = 296;
+   
     pressure = 1;
+   
     K = Cross_Matrix(molecule_ids, isotopologue_ids, wavelengths, temperature, pressure);
 
-2. **Output Formatting**
+3. **Output Formatting**
 
     The output from the scripts will typically include data tables and visualizations. Ensure that the output is saved or displayed as needed. For example, in MATLAB:
 
     result = Cross_Matrix(molecule_ids, isotopologue_ids, wavelengths, temperature, pressure);
+   
     disp(result);
 
 
