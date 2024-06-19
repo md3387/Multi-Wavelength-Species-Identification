@@ -76,7 +76,9 @@ This project integrates several MATLAB scripts to interact with the HITRAN datab
     Ensure MATLAB is configured to use the correct Python interpreter. For example, MATLAB R2021b supports Python versions up to 3.8. You can set this in MATLAB's preferences:
 
     pyenv('Version', 'path/to/python')
-    ex:  pyenv('Version', 'C:/Users/C25Jacob.Rickel/AppData/Local/Programs/Python/Python311/pythonw.exe')
+   
+    ex:
+    pyenv('Version', 'C:/Users/C25Jacob.Rickel/AppData/Local/Programs/Python/Python311/pythonw.exe')
 ---
 
 ## Code Blocks Overview
