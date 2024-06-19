@@ -41,7 +41,7 @@ This project integrates several MATLAB scripts to interact with the HITRAN datab
 | R2015a         | 2.7, 3.3, 3.4               |
 | R2014b         | 2.7                         |
 
-3. **Necessary Libraries**: Install the following Python libraries using pip:
+3. **Necessary Libraries**: Install the following Python libraries using pip in the command prompt for windows:
 
     pip install hitran-api numpy
 
@@ -67,7 +67,7 @@ This project integrates several MATLAB scripts to interact with the HITRAN datab
 
     pip install hitran-api numpy
 
-2. **Download HITRAN Data Files**
+2. **Download HITRAN Data Files** (optional)
 
     Ensure the HITRAN data files are accessible. You can download them from the HITRAN website or configure the code to access the data through the HAPI API.
 
@@ -76,7 +76,7 @@ This project integrates several MATLAB scripts to interact with the HITRAN datab
     Ensure MATLAB is configured to use the correct Python interpreter. For example, MATLAB R2021b supports Python versions up to 3.8. You can set this in MATLAB's preferences:
 
     pyenv('Version', 'path/to/python')
-
+    ex:  pyenv('Version', 'C:/Users/C25Jacob.Rickel/AppData/Local/Programs/Python/Python311/pythonw.exe')
 ---
 
 ## Code Blocks Overview
