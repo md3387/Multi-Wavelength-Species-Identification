@@ -152,7 +152,7 @@ This script calculates the absorption cross-section using the methodology outlin
 
 2. **Modify Paths as Needed**
 
-    If necessary, modify the paths in the #### `getAbsorptionCrossSection.mlx` to point to the correct locations of `HAPI_Processor.py`
+    If necessary, modify the paths in the `getAbsorptionCrossSection.mlx` to point to the correct locations of `HAPI_Processor.py`
     and other data files.
 
 ### Input Instructions for Each File
