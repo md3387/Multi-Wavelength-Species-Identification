@@ -152,59 +152,10 @@ This script calculates the absorption cross-section using the methodology outlin
 
 2. **Modify Paths as Needed**
 
-    If necessary, modify the paths in the MATLAB scripts to point to the correct locations of `HAPI_Processor.py`
+    If necessary, modify the paths in the #### `getAbsorptionCrossSection.mlx` to point to the correct locations of `HAPI_Processor.py`
     and other data files.
 
 ### Input Instructions for Each File
-
-#### `getAbsorptionCrossSection.mlx`
-
-**Purpose**: Calculates the absorption cross-section for a given molecule.
-
-**Input**:
-- molecule_id: HITRAN molecule ID (integer)
-- isotopologue_id: HITRAN isotopologue ID (integer)
-- wavelength: Wavelength (in micrometers) at which to calculate the cross-section (scalar)
-- temperature: Temperature in Kelvin (scalar)
-- pressure: Pressure in atm (scalar)
-
-**Example Call**:
-molecule_id = 1;
-isotopologue_id = 1;
-wavelength = 2.5;
-temperature = 296;
-pressure = 1;
-absorption_cross_section = getAbsorptionCrossSection(molecule_id, isotopologue_id, wavelength, temperature, pressure);
-
-#### `check_molecule_presence.mlx`
-
-**Purpose**: Checks the presence of specific molecules in the downloaded HITRAN data.
-
-**Input**:
-- search_id: The ID of the molecule to search for (integer).
-
-**Example Call**:
-search_id = 1;
-is_present = check_molecule_presence(search_id);
-
-#### `Cross_Matrix.mlx`
-
-**Purpose**: Computes the absorption cross-section matrix for given molecules and wavelengths.
-
-**Input**:
-- molecule_id: Array of HITRAN molecule IDs (vector)
-- isotopologue_id: Scalar or vector of HITRAN isotopologue IDs
-- wavelength: Array of wavelengths (in micrometers) at which to calculate the cross-section (vector)
-- temperature: Temperature in Kelvin (scalar)
-- pressure: Pressure in atm (scalar)
-
-**Example Call**:
-molecule_ids = [1, 2];
-isotopologue_ids = [1, 2];
-wavelengths = [2.5, 3.0, 3.5];
-temperature = 296;
-pressure = 1;
-K = Cross_Matrix(molecule_ids, isotopologue_ids, wavelengths, temperature, pressure
 
 #### `absorptionCrossSectionPinkowski.mlx`
 
@@ -227,6 +178,55 @@ speciesID = 6;
 wavelength = 3.1758;
 T = 1000;
 sigma = absorptionCrossSectionPinkowski(speciesID, wavelength, T);
+
+#### `check_molecule_presence.mlx`
+
+**Purpose**: Checks the presence of specific molecules in the downloaded HITRAN data.
+
+**Input**:
+- search_id: The ID of the molecule to search for (integer).
+
+**Example Call**:
+search_id = 1;
+is_present = check_molecule_presence(search_id);
+
+#### `getAbsorptionCrossSection.mlx`
+
+**Purpose**: Calculates the absorption cross-section for a given molecule.
+
+**Input**:
+- molecule_id: HITRAN molecule ID (integer)
+- isotopologue_id: HITRAN isotopologue ID (integer)
+- wavelength: Wavelength (in micrometers) at which to calculate the cross-section (scalar)
+- temperature: Temperature in Kelvin (scalar)
+- pressure: Pressure in atm (scalar)
+
+**Example Call**:
+molecule_id = 1;
+isotopologue_id = 1;
+wavelength = 2.5;
+temperature = 296;
+pressure = 1;
+absorption_cross_section = getAbsorptionCrossSection(molecule_id, isotopologue_id, wavelength, temperature, pressure);
+
+#### `Cross_Matrix.mlx`
+
+**Purpose**: Computes the absorption cross-section matrix for given molecules and wavelengths.
+
+**Input**:
+- molecule_id: Array of HITRAN molecule IDs (vector)
+- isotopologue_id: Scalar or vector of HITRAN isotopologue IDs
+- wavelength: Array of wavelengths (in micrometers) at which to calculate the cross-section (vector)
+- temperature: Temperature in Kelvin (scalar)
+- pressure: Pressure in atm (scalar)
+
+**Example Call**:
+molecule_ids = [1, 2];
+isotopologue_ids = [1, 2];
+wavelengths = [2.5, 3.0, 3.5];
+temperature = 296;
+pressure = 1;
+K = Cross_Matrix(molecule_ids, isotopologue_ids, wavelengths, temperature, pressure
 
 ---
 
