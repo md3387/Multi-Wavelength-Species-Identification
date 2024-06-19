@@ -85,18 +85,26 @@ This project integrates several MATLAB scripts to interact with the HITRAN datab
 
 ### File: `HAPI_Processor.py`
 
-This script initializes the HITRAN API and fetches the relevant absorption cross-section data. It includes functions for querying HITRAN data based on user-defined parameters.
+This script initializes the HITRAN API and fetches the relevant absorption cross-section data. It includes functions for querying HITRAN data based on user-defined parameters. This function is independent.
 
 **Key Functions:**
 
 - initialize_hapi(): Sets up the HITRAN API connection.
 - get_absorption_cross_section(): Queries the HITRAN database for absorption cross-section data.
 
+### File: `absorptionCrossSectionPinkowski.mlx`
+
+This script calculates the absorption cross-section using the methodology outlined by Pinkowski et al. The paper is included in the useful links. This function is independent.
+
+### File: `check_molecule_presence.mlx`
+
+This script checks the presence of specific molecules in the HITRAN data appended with Pinkowski's models for molecules not in HITRAN and outputs relevant information. This function is independent.
+
 ### File: `getAbsorptionCrossSection.mlx`
 
-This MATLAB Live Script processes the HITRAN data using the Python script. It is configured to call the `HAPI_Processor.py` functions to retrieve and process the data.
+This MATLAB Live Script processes the HITRAN data using the Python script. It is configured to call the `HAPI_Processor.py` functions to retrieve and process the data. This function requires: `HAPI_Processor.py`,`absorptionCrossSectionPinkowski.mlx`, and `check_molecule_presence.mlx`.
 
-**Instructions for Configuration:**
+   **Instructions for Configuration:**
 
 - Change Data Paths: Update the path in the script to point to the correct location of `HAPI_Processor.py`.
 - Example of current implementation on the local machine: 
@@ -112,17 +120,11 @@ This MATLAB Live Script processes the HITRAN data using the Python script. It is
             % Ensure the current directory is not the numpy source directory
             cd('C:/Users/C25Jacob.Rickel/Downloads'); % Change to a suitable directory
 
-### File: `check_molecule_presence.mlx`
-
-This script checks the presence of specific molecules in the HITRAN data appended with Pinkowski's models for molecules not in HITRAN and outputs relevant information.
-
 ### File: `Cross_Matrix.mlx`
 
-This script generates a matrix of cross-sections for different molecules and conditions, utilizing the HITRAN data retrieved through HAPI.
+This script generates a matrix of cross-sections for different molecules and conditions, utilizing the HITRAN data retrieved through HAPI. This function requires: `HAPI_Processor.py`,`absorptionCrossSectionPinkowski.mlx`, `check_molecule_presence.mlx`, and `getAbsorptionCrossSection.mlx`.
 
-### File: `absorptionCrossSectionPinkowski.mlx`
 
-This script calculates the absorption cross-section using the methodology outlined by Pinkowski et al. The paper is included in the useful links. 
 
 ---
 
@@ -162,6 +164,7 @@ This script calculates the absorption cross-section using the methodology outlin
 **Purpose**: Calculates the absorption cross-section for a given species ID, wavelength, and temperature.
 
 **Input**:
+
 - speciesID: Numeric ID of the species for which the absorption cross-section is to be calculated (integer). Supported species IDs:
   - 6: CH4 (Methane)
   - 38: C2H4 (Ethylene)
@@ -174,9 +177,13 @@ This script calculates the absorption cross-section using the methodology outlin
 - T: Temperature in Kelvin (scalar).
 
 **Example Call**:
+
 speciesID = 6;
+
 wavelength = 3.1758;
+
 T = 1000;
+
 sigma = absorptionCrossSectionPinkowski(speciesID, wavelength, T);
 
 #### `check_molecule_presence.mlx`
@@ -184,10 +191,13 @@ sigma = absorptionCrossSectionPinkowski(speciesID, wavelength, T);
 **Purpose**: Checks the presence of specific molecules in the downloaded HITRAN data.
 
 **Input**:
+
 - search_id: The ID of the molecule to search for (integer).
 
 **Example Call**:
-search_id = 1;
+
+search_id = 1
+
 is_present = check_molecule_presence(search_id);
 
 #### `getAbsorptionCrossSection.mlx`
@@ -195,18 +205,28 @@ is_present = check_molecule_presence(search_id);
 **Purpose**: Calculates the absorption cross-section for a given molecule.
 
 **Input**:
+
 - molecule_id: HITRAN molecule ID (integer)
+  
 - isotopologue_id: HITRAN isotopologue ID (integer)
+  
 - wavelength: Wavelength (in micrometers) at which to calculate the cross-section (scalar)
+  
 - temperature: Temperature in Kelvin (scalar)
+  
 - pressure: Pressure in atm (scalar)
 
 **Example Call**:
 molecule_id = 1;
+
 isotopologue_id = 1;
+
 wavelength = 2.5;
+
 temperature = 296;
+
 pressure = 1;
+
 absorption_cross_section = getAbsorptionCrossSection(molecule_id, isotopologue_id, wavelength, temperature, pressure);
 
 #### `Cross_Matrix.mlx`
@@ -214,18 +234,29 @@ absorption_cross_section = getAbsorptionCrossSection(molecule_id, isotopologue_i
 **Purpose**: Computes the absorption cross-section matrix for given molecules and wavelengths.
 
 **Input**:
+
 - molecule_id: Array of HITRAN molecule IDs (vector)
+  
 - isotopologue_id: Scalar or vector of HITRAN isotopologue IDs
+  
 - wavelength: Array of wavelengths (in micrometers) at which to calculate the cross-section (vector)
+  
 - temperature: Temperature in Kelvin (scalar)
+  
 - pressure: Pressure in atm (scalar)
 
 **Example Call**:
+
 molecule_ids = [1, 2];
+
 isotopologue_ids = [1, 2];
+
 wavelengths = [2.5, 3.0, 3.5];
+
 temperature = 296;
+
 pressure = 1;
+
 K = Cross_Matrix(molecule_ids, isotopologue_ids, wavelengths, temperature, pressure
 
 ---
