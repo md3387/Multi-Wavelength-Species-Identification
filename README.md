@@ -265,8 +265,11 @@ K = Cross_Matrix(molecule_ids, isotopologue_ids, wavelengths, temperature, press
 
 The Python script `HAPI_Processor.py` is responsible for interacting with the HITRAN API to fetch absorption cross-section data. The MATLAB scripts process this data to perform various analyses and generate output.
 
-- **Data Retrieval**: `HAPI_Processor.py` fetches data from HITRAN based on user-defined parameters.
-- **Data Processing**: MATLAB scripts (`*.mlx`) process the retrieved data to calculate absorption cross-sections, check molecule presence, and generate cross-section matrices.
+- **Data Retrieval**: `HAPI_Processor.py` fetches data from HITRAN based on user-defined parameters it is called by `getAbsorptionCrossSection.mlx`.
+- **Data Processing**: MATLAB scripts `absorptionCrossSectionPinkowski.mlx` and `getAbsorptionCrossSection.mlx` take user inputs to generate single cross section values.    
+                       They process the retrieved data to calculate absorption cross-sections.  `check_molecule_presence.mlx` determines if the molecule is at all in the
+                       set of data. Finally `Cross_Matrix.mlx` creates a matrix of absorbance cross section given vectors of molecule IDs and wavelengths for a given
+                       temperature and pressure.
 - **Output Generation**: The scripts generate output in the form of matrices and visualizations, which can be used for further analysis.
 
 ### Input and Output Formatting
