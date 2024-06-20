@@ -86,6 +86,7 @@ This project integrates several MATLAB scripts to interact with the HITRAN datab
 ### File: `HAPI_Processor.py`
 
 This script initializes the HITRAN API and fetches the relevant absorption cross-section data. It includes functions for querying HITRAN data based on user-defined parameters. This function is independent.
+-hapi.py must be in same folder as HAPI_Processor.py.
 
 **Key Functions:**
 
