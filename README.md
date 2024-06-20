@@ -1,20 +1,28 @@
+#V1 Author: Jacob Rickel 6/18/2024
 # Multi-Wavelength-Species-Identification
-A Matlab code to identify species in a mixture given measured absorptions at discreet wavelengths by comparing the measurements to values from multiple databases
+A combined Matlab/Python library to identify species in a mixture given measured absorptions at discreet wavelengths by comparing the measurements to values from multiple databases
 
-#V1: Jacob Rickel 6/18/2024
+# Databases included in current version:
+1) HiTRAN (https://www.hitran.org/)
+2) Pinkowski (https://www.sciencedirect.com/science/article/pii/S0022407318307374)
+
+# Databases I'm hoping to include someday:
+1) HiTEMP
+2) GEISA
+3) NIST Chemical Webbook (https://webbook.nist.gov/chemistry/name-ser/)
+4) PNNL
+5) Stanford/Literature review
+
 ## Overview
-
 This project integrates several MATLAB scripts to interact with the HITRAN database using the HAPI (HITRAN Application Programming Interface) for retrieving molecular spectroscopy data mainly absorbance cross section. The main components include data retrieval, processing, and output generation. This document outlines the prerequisites, setup, functionality of the code blocks, and detailed usage instructions.
-
 ---
 
 ## Prerequisites
 
 ### Software Requirements
-
 1. **Python**: Ensure Python 3.x is installed. You can download it from [python.org](https://www.python.org/).
 2. **MATLAB**: Ensure MATLAB is installed and configured to run Python scripts.
-   - **Note**: MATLAB is compatible only with certain versions of Python. Refer to the table below for compatible Python versions with different MATLAB releases.
+   **Note**: MATLAB is compatible only with certain versions of Python. Refer to the table below for compatible Python versions with different MATLAB releases.
 
 ### MATLAB and Python Compatibility
 
@@ -41,50 +49,55 @@ This project integrates several MATLAB scripts to interact with the HITRAN datab
 | R2015a         | 2.7, 3.3, 3.4               |
 | R2014b         | 2.7                         |
 
-3. **Necessary Libraries**: Install the following Python libraries using pip in the command prompt for windows:
-
+3. **Necessary Libraries**: Install the hitran api and numpy Python libraries using pip in the command prompt for windows:
     pip install hitran-api numpy
-
 4. **Internet Access**: Required to access the HITRAN database via the HAPI API.
 
 ### Useful Links
-
 - HAPI Manual: https://hitran.org/static/hapi/hapi_manual.pdf
-
 - HAPI Documentation: https://hitran.org/hapi/
-
-- ScienceDirect Paper: https://pdf.sciencedirectassets.com/271566/1-s2.0-S0022407318X00181/1-s2.0-S0022407318307374/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHMaCXVzLWVhc3QtMSJHMEUCIHapNx3wONtWQ5Ix%2FYBoixFVPHpCspIaM7BtQupxABkFAiEAujFQFetTypJ2N3zb0DFhdm3Mi%2Byr%2BLRYdKBoWYqgnEQqsgUIGxAFGgwwNTkwMDM1NDY4NjUiDGCqNfz2mr6GkGoPgyqPBduWDrQTzKHbPwB4VKGzNp27tDH3lOTQk%2BHziaFkWpTPEdKVry5rdnKgUVO0czQkh%2BBcahXA5VuvVFxzHifY4Hpsnp6oSMX%2BfuD57C9JhEeyQinvwZwAMzLVgpoHGheVmuttQVJPvCD%2BqJmKbWeWZ3f4Dm3O95B1HhVd6hY%...
-
+- Pinkowski paper that includes scattered high-temperature spectra, and discusses a framework for determining species mole fractions (x) in an unknown mixture using a user-defined set of possible molecules (n) based on measured absorbances (b) at several discreet wavelengths (m): (https://www.sciencedirect.com/science/article/pii/S0022407318307374)
 ---
 
 ## Setup Instructions
-
-### Configuration
-
-1. **Install Required Packages**
-
-    Use pip to install necessary Python libraries:
-
-    pip install hitran-api numpy
-
-2. **Download HITRAN Data Files** (optional)
-
-    Ensure the HITRAN data files are accessible. You can download them from the HITRAN website or configure the code to access the data through the HAPI API.
-
+1. **Install Required Packages** (pip install hitran-api numpy)
+2. **Download HITRAN Data Files** (optional. You can download them from the HITRAN website or configure the code to access the data through the HAPI API) 
 3. **MATLAB Configuration**
+    Ensure MATLAB is configured to use the correct Python interpreter. For example, MATLAB R2021b supports Python versions up to 3.8. You can set this in 
+    MATLAB's preferences:
 
-    Ensure MATLAB is configured to use the correct Python interpreter. For example, MATLAB R2021b supports Python versions up to 3.8. You can set this in MATLAB's preferences:
+## Physical Principles and Underlying Math:
+The code blocks discussed below follow a method discussed in Pinkowski et al. for determining species mole fractions (x) in an unknown mixture using a user-defined set of possible molecules (n) based on measured absorbances (b) at several discreet wavelengths (m). The underlying physical principle that makes this possible is Beer's Law. For a single species at a single wavelength:
 
-    pyenv('Version', 'path/to/python')
-   
-    ex:
-    pyenv('Version', 'C:/Users/C25Jacob.Rickel/AppData/Local/Programs/Python/Python311/pythonw.exe')
----
+\alpha=n*\sigma*L 
+
+where:
+\alpha = absorbance [-] at a specific wavelength (\lambda) measured using laser absorbance \alpha=(-ln(I/Io))
+n      = number density [mol/m^3]
+\sigma = absorbtion cross-section [m^2/mol] - This is temperature, pressure, and wavelength-specific.
+L      = path length [m]
+
+So in words:
+absorbance = number density * absorbtion cross section * Path Length
+
+But if there are several species in a mixture, multiple species may absorb at the same wavelength. If several species in the mixture absorb strongly at that wavelength the determination of composition becomes basically impossible. When multiple species are considered, absorbance contributions at that wavelength sum linearly:
+
+\alpha_\lambda=\sum(\sigma_i*n_i*L)
+
+That is, total absorbance equals the sum of the individual absorbances.
+
+If you want to determine the composition of a multi-species mixture, you need to measure absorbance at at least as many wavelengths as you have species. Then, you can build a Beer-Lambert system in the form:
+
+Kx=b
+
+where K is an M x N matrix of absorbtion cross-sections a combinations of M wavelengths and N species.  x is the composition you're trying to find, and b is the absorbance at the M wavelengths you have measured.  As long as M>=N, the matrix can be solved. In many high-temperature applications, absorption cross-sections must be measured from scratch. Absorbtion cross-sections of specific molecules at the temperatures, pressures, and wavelengths of interest may be found in one of several available databases. The purpose of the code blocks described below is to draw from the HiTRAN database, use that data to complete the K-matrix and use it to solve for x from a given b matrix. 
 
 ## Code Blocks Overview
+The code structure is such that the highest level code draws from those listed below.
+
+
 
 ### File: `HAPI_Processor.py`
-
 This script initializes the HITRAN API and fetches the relevant absorption cross-section data. It includes functions for querying HITRAN data based on user-defined parameters. This function is independent.
 -hapi.py must be in same folder as HAPI_Processor.py.
 
