@@ -122,7 +122,7 @@ This MATLAB Live Script processes the HITRAN data using the Python script. It is
             cd('C:/Users/C25Jacob.Rickel/Downloads'); % Change to a suitable directory
 
 ### File: `Cross_Matrix.mlx`
-
+generates mxn K-matrix (m wavelengths x n molecules where cells are absorbption cross-sections)
 This script generates a matrix of cross-sections for different molecules and conditions, utilizing the HITRAN data retrieved through HAPI. This function requires: `HAPI_Processor.py`,`absorptionCrossSectionPinkowski.mlx`, `check_molecule_presence.mlx`, and `getAbsorptionCrossSection.mlx`.
 
 
